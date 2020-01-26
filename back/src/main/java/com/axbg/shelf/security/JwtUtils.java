@@ -1,5 +1,6 @@
 package com.axbg.shelf.security;
 
+import com.google.api.client.util.Value;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.experimental.UtilityClass;
@@ -8,8 +9,12 @@ import java.util.Date;
 
 @UtilityClass
 public class JwtUtils {
-    private static String secret = "AWEGWRETK@#$@#KBE!@#!11!@#";
-    private static int expiration = 260000;
+
+    @Value("${shelf.app.jwt.secret}")
+    private static String secret;
+
+    @Value("${shelf.app.jwt.expiration}")
+    private static int expiration;
 
     public String generateJwt(String email) {
         return Jwts.builder()

@@ -16,4 +16,9 @@ public class User {
     private String email;
 
     private String firstName;
+
+    public User(String email, String firstName) {
+        this.email = email;
+        this.firstName = firstName;
+    }
 }
