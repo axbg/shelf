@@ -5,9 +5,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -30,10 +32,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
+        Cookie jwtCookie = WebUtils.getCookie(request, "X-AUTH");
+        String jwt = jwtCookie != null ? jwtCookie.getValue() : null;
 
-        if (authHeader != null && !authHeader.isEmpty() && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
+        if (jwt != null && !jwt.isEmpty()) {
+            return jwt;
         }
 
         return null;
