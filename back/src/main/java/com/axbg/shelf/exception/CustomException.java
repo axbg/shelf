@@ -11,4 +11,9 @@ import org.springframework.http.HttpStatus;
 public class CustomException extends Exception {
     private final String message;
     private final HttpStatus status;
+
+    @Override
+    public String toString() {
+        return "{ \"message\": \"" + message + "\" }";
+    }
 }
