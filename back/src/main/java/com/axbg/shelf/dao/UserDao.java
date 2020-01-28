@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UserDao extends CrudRepository<User, Long> {
     Optional<User> findByEmail(String email);
+    void deleteByEmail(String email);
 }

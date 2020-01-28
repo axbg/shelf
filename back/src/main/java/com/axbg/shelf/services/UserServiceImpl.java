@@ -11,14 +11,16 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import java.util.Arrays;
 import java.util.Collections;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -28,8 +30,8 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     @Override
-    public User findByEmail(String email) {
-        return userDao.findByEmail(email).orElse(null);
+    public User findUser() {
+        return userDao.findByEmail(getUserEmail()).orElse(null);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserService {
             if (gId != null) {
                 GoogleIdToken.Payload payload = gId.getPayload();
                 String email = payload.getEmail();
-                User user = findByEmail(email);
+                User user = findUser();
 
                 if (user == null) {
                     user = registerUser(email, (String) payload.get("name"));
@@ -67,6 +69,15 @@ public class UserServiceImpl implements UserService {
         } catch (Exception ex) {
             throw new CustomException("Error on Google connection", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public void deleteUser() {
+        userDao.deleteByEmail(getUserEmail());
+    }
+
+    private String getUserEmail() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }

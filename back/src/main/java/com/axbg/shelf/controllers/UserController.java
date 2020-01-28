@@ -48,6 +48,7 @@ public class UserController {
 
     @DeleteMapping
     public ResponseEntity<String> remove() {
+        userService.deleteUser();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

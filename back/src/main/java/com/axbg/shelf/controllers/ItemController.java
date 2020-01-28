@@ -4,6 +4,7 @@ import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.services.ItemService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +25,25 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<Item>> getItems() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item());
-        return new ResponseEntity<>(items, HttpStatus.OK);
+        return new ResponseEntity<>(itemService.findAllByUser(), HttpStatus.OK);
     }
 
     @GetMapping(params = "id")
     public ResponseEntity<Item> getItem(@RequestParam("id") long id) {
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        Optional<Item> item = itemService.findByIdAndUser(id);
+        return item.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(params = "title")
     public ResponseEntity<List<Item>> searchItem(@RequestBody String title) {
+        //implement "LIKE" search
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
-    @PostMapping(params = "item")
-    public ResponseEntity<Item> createItem(@RequestBody Item item) {
+    @PostMapping(params = "url")
+    public ResponseEntity<Item> createItem(@RequestBody String url) {
+        //implement Selenium routine
         return new ResponseEntity<>(new Item(), HttpStatus.OK);
     }
 
