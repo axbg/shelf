@@ -1,22 +1,27 @@
 package com.axbg.shelf.security;
 
-import com.google.api.client.util.Value;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.experimental.UtilityClass;
-
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-@UtilityClass
+@Component
 public class JwtUtils {
-
-    @Value("${shelf.app.jwt.secret}")
     private static String secret;
-
-    @Value("${shelf.app.jwt.expiration}")
     private static int expiration;
 
-    public String generateJwt(String email) {
+    @Value("${shelf.app.jwt.secret}")
+    private void setSecret(String secretValue) {
+        secret = secretValue;
+    }
+
+    @Value("${shelf.app.jwt.expiration}")
+    private void setExpiration(int expirationValue) {
+        expiration = expirationValue;
+    }
+
+    public static String generateJwt(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
@@ -25,11 +30,11 @@ public class JwtUtils {
                 .compact();
     }
 
-    String getEmailFromJwt(String token) {
+    public static String getEmailFromJwt(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    boolean validateJwtToken(String authToken) {
+    public static boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
             return true;

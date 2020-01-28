@@ -1,5 +1,6 @@
 package com.axbg.shelf.entity;
 
+import javax.persistence.ManyToOne;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -17,4 +18,7 @@ public class Item {
     private String url;
 
     private String photo;
+
+    @ManyToOne
+    private Collection collection;
 }
