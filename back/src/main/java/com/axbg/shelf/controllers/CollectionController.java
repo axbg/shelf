@@ -1,7 +1,5 @@
 package com.axbg.shelf.controllers;
 
-import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
-
 import com.axbg.shelf.entity.Collection;
 import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.exception.CustomException;
@@ -61,10 +59,6 @@ public class CollectionController {
 
     @DeleteMapping
     ResponseEntity<String> deleteCollection(@RequestParam("name") String name) throws CustomException {
-        if (name.equals(UNSORTED_COLLECTION)) {
-            throw new CustomException("Unsorted list cannot be deleted", HttpStatus.BAD_REQUEST);
-        }
-
         collectionService.deleteByName(name);
         return new ResponseEntity<>(HttpStatus.OK);
     }

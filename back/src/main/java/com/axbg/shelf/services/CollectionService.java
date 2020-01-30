@@ -1,6 +1,7 @@
 package com.axbg.shelf.services;
 
 import com.axbg.shelf.entity.Collection;
+import com.axbg.shelf.exception.CustomException;
 import java.util.List;
 
 public interface CollectionService {
@@ -10,5 +11,5 @@ public interface CollectionService {
 
     Collection findByName(String name);
 
-    void deleteByName(String name);
+    void deleteByName(String name) throws CustomException;
 }

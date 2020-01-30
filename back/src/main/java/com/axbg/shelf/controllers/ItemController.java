@@ -1,8 +1,8 @@
 package com.axbg.shelf.controllers;
 
 import com.axbg.shelf.entity.Item;
+import com.axbg.shelf.exception.CustomException;
 import com.axbg.shelf.services.ItemService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -37,18 +37,17 @@ public class ItemController {
 
     @PostMapping(params = "title")
     public ResponseEntity<List<Item>> searchItem(@RequestBody String title) {
-        //implement "LIKE" search
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        return new ResponseEntity<>(itemService.searchByName(title), HttpStatus.OK);
     }
 
     @PostMapping(params = "url")
-    public ResponseEntity<Item> createItem(@RequestBody String url) {
-        //implement Selenium routine
-        return new ResponseEntity<>(new Item(), HttpStatus.OK);
+    public ResponseEntity<Item> createItem(@RequestBody String url) throws CustomException {
+        return new ResponseEntity<>(itemService.createItem(url), HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteItem(@RequestParam("id") long id) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
