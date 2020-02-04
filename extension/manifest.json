@@ -1,0 +1,21 @@
+{
+    "name": "shelf",
+    "version": "1.0",
+    "description": "Your seamless bookmark manager",
+    "permissions": [
+        "storage", 
+        "cookies",
+        "*://*.google.com/"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_icon": {
+            "32": "icons/32.png"
+        },
+        "default_title": "shelf",
+        "default_popup": "index.html"
+    },
+    "manifest_version": 2
+}
