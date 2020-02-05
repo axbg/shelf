@@ -12,5 +12,4 @@ public interface ItemDao extends CrudRepository<Item, Long> {
 
     @Query("SELECT i from Item i where i.collection.user = ?1 and i.title like %?2%")
     List<Item> findByUserAndTitleContaining(User user, String title);
-
 }

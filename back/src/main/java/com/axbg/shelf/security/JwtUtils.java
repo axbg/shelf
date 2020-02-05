@@ -6,6 +6,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
+
 @Component
 public class JwtUtils {
     private static String secret;
@@ -34,6 +36,10 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    public static Date getIssuedAt(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getIssuedAt();
+    }
+
     public static boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
@@ -42,4 +48,13 @@ public class JwtUtils {
             return false;
         }
     }
+
+    public static Cookie generateJwtCookie(String jwt) {
+        Cookie jwtCookie = new Cookie("X-AUTH", jwt);
+        jwtCookie.setPath("/");
+        jwtCookie.setHttpOnly(true);
+//        jwtCookie.setSecure(true);
+        return jwtCookie;
+    }
+
 }

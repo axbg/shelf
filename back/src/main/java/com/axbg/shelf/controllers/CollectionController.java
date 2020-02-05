@@ -62,5 +62,4 @@ public class CollectionController {
         collectionService.deleteByName(name);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

@@ -16,5 +16,4 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(ex.toString(), headers, ex.getStatus());
     }
-
 }

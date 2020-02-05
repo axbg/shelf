@@ -76,8 +76,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private boolean verifyUrl(String url) {
-        //implement a more complex verification
         return !url.isBlank() && (url.contains("http://") || url.contains("https://"));
     }
-
 }
