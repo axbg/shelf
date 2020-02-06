@@ -4,7 +4,7 @@
       <pulse-loader color="#FFC0CB" size="50px"></pulse-loader>
     </div>
     <div v-else class="home-container">
-      <div class="sidenav">
+      <div class="sidenav pale-pink">
         <md-list>
           <md-list-item>
             <md-avatar>
@@ -19,19 +19,22 @@
           <md-input v-model="search" style="width:50%"></md-input>
         </md-field>
         <md-list>
-          <md-list-item>
-            <md-icon>add</md-icon>
-            <span class="md-list-item-text pointer">Add New Bookmark</span>
-          </md-list-item>
-          <md-divider></md-divider>
-          <md-list-item>
-            <md-icon style="color: black">move_to_inbox</md-icon>
-            <span class="md-list-item-text pointer">All</span>
-          </md-list-item>
+          <md-ripple class="pointer">
+            <md-list-item>
+              <md-icon>add</md-icon>
+              <span class="md-list-item-text">Add New Bookmark</span>
+            </md-list-item>
+          </md-ripple>
+          <md-ripple class="pointer">
+            <md-list-item>
+              <md-icon>move_to_inbox</md-icon>
+              <span class="md-list-item-text">All</span>
+            </md-list-item>
+          </md-ripple>
         </md-list>
         <p class="logout">Logout</p>
       </div>
-      <div class="sidenav-short">
+      <div class="sidenav-short pale-pink">
         <md-list>
           <md-list-item>
             <md-avatar>
@@ -44,90 +47,26 @@
           <md-input v-model="search" style="width:50%;"></md-input>
         </md-field>
         <md-list>
-          <md-list-item>
-            <md-icon class="pointer">add</md-icon>
-          </md-list-item>
-          <md-divider></md-divider>
-          <md-list-item>
-            <md-icon style="color: black" class="pointer"
-              >move_to_inbox</md-icon
-            >
-          </md-list-item>
+          <md-ripple class="pointer">
+            <md-list-item>
+              <md-icon>add</md-icon>
+            </md-list-item>
+          </md-ripple>
+          <md-ripple class="pointer">
+            <md-list-item>
+              <md-icon>move_to_inbox</md-icon>
+            </md-list-item>
+          </md-ripple>
         </md-list>
       </div>
       <div class="content">
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Card with hover effect</div>
-              <div class="md-subhead">It also have a ripple</div>
-            </md-card-header>
-
-            <md-card-content>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
-              itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-            </md-card-content>
-
-            <md-card-actions>
-              <md-button>Action</md-button>
-              <md-button>Action</md-button>
-            </md-card-actions>
-          </md-ripple>
-        </md-card>
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Card with hover effect</div>
-              <div class="md-subhead">It also have a ripple</div>
-            </md-card-header>
-
-            <md-card-content>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
-              itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-            </md-card-content>
-
-            <md-card-actions>
-              <md-button>Action</md-button>
-              <md-button>Action</md-button>
-            </md-card-actions>
-          </md-ripple>
-        </md-card>
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Card with hover effect</div>
-              <div class="md-subhead">It also have a ripple</div>
-            </md-card-header>
-
-            <md-card-content>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
-              itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-            </md-card-content>
-
-            <md-card-actions>
-              <md-button>Action</md-button>
-              <md-button>Action</md-button>
-            </md-card-actions>
-          </md-ripple>
-        </md-card>
-        <md-card md-with-hover>
-          <md-ripple>
-            <md-card-header>
-              <div class="md-title">Card with hover effect</div>
-              <div class="md-subhead">It also have a ripple</div>
-            </md-card-header>
-
-            <md-card-content>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
-              itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-            </md-card-content>
-
-            <md-card-actions>
-              <md-button>Action</md-button>
-              <md-button>Action</md-button>
-            </md-card-actions>
-          </md-ripple>
-        </md-card>
+        <ShelfCard
+          v-for="(item, index) in fakeCards"
+          v-bind:key="index"
+          v-bind:id="item.id"
+          v-bind:title="item.title"
+          v-bind:url="item.url"
+        />
       </div>
     </div>
   </div>
@@ -135,18 +74,48 @@
 
 <script>
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import ShelfCard from "@/components/ShelfCard";
 export default {
   components: {
-    PulseLoader
+    PulseLoader,
+    ShelfCard
   },
   name: "home",
   data: () => ({
     search: null,
-    loaded: true
+    loaded: false,
+    searchDelay: null,
+    fakeCards: [
+      {
+        id: 1,
+        title: "Learn something",
+        url: "https://google.com"
+      },
+      {
+        id: 1,
+        title: "Learn something",
+        url: "https://google.com"
+      },
+      {
+        id: 1,
+        title: "Learn something",
+        url: "https://google.com"
+      }
+    ]
   }),
+  beforeMount: async function() {
+    setTimeout(() => {
+      this.loaded = true;
+    }, 1000);
+  },
   watch: {
-    loaded: function() {
-      alert("loaded changed");
+    search: function() {
+      if (this.searchDelay != null) {
+        clearTimeout(this.searchDelay);
+      }
+      this.searchDelay = setTimeout(() => {
+        alert("searched for " + this.search);
+      }, 700);
     }
   }
 };
@@ -163,11 +132,11 @@ export default {
   display: grid;
   grid-template-columns: 300px 1fr;
   overflow: hidden;
+  color: #d23669;
 }
 .sidenav {
   height: 100%;
   width: 100%;
-  background-color: whitesmoke;
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.19), 0 0px 6px rgba(0, 0, 0, 0.2);
   padding: 15px;
 }
@@ -175,7 +144,6 @@ export default {
   display: none;
   height: 100%;
   width: 100%;
-  background-color: whitesmoke;
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.19), 0 0px 6px rgba(0, 0, 0, 0.2);
   padding: 10px;
 }
@@ -185,18 +153,22 @@ export default {
 }
 .pointer {
   cursor: pointer;
+  user-select: none;
 }
 .content {
   height: 100%;
   width: 100%;
   display: grid;
   padding: 30px;
-  grid-gap: 20px;
+  column-gap: 20px;
+  row-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-rows: 300px;
+  grid-auto-rows: 180px;
   overflow-y: auto;
 }
-
+.pale-pink {
+  background-color: #FFF7F8;
+}
 @media only screen and (max-width: 900px) {
   .home-container {
     grid-template-columns: 100px 1fr;
@@ -212,7 +184,15 @@ export default {
 @media only screen and (max-width: 400px) {
   .content {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-auto-rows: 350px;
+    grid-auto-rows: 300px;
+    padding: none;
+    row-gap: 0;
+  }
+  .big-title {
+    display: none;
+  }
+  .card-title {
+    display: block;
   }
 }
 </style>
