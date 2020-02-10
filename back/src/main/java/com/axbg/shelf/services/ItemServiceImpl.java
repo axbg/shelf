@@ -54,11 +54,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Optional<Item> findById(final long id) {
-        return itemDao.findById(id);
-    }
-
-    @Override
     public List<Item> findAllByUser() {
         return itemDao.findAllByUser(userService.findUser());
     }
@@ -73,6 +68,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> searchByName(String title) {
         return itemDao.findByUserAndTitleContaining(userService.findUser(), title);
+    }
+
+    @Override
+    public boolean isPresentByUrl(final String url) {
+        return itemDao.findByUserAndUrl(userService.findUser(), url).isPresent();
     }
 
     private boolean verifyUrl(String url) {

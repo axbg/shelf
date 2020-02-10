@@ -35,6 +35,13 @@ public class ItemController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @PostMapping(params = "checkableUrl")
+    public ResponseEntity<String> isItemPresent(@RequestParam String checkableUrl) {
+        return itemService.isPresentByUrl(checkableUrl) ?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping(params = "title")
     public ResponseEntity<List<Item>> searchItem(@RequestBody String title) {
         return new ResponseEntity<>(itemService.searchByName(title), HttpStatus.OK);
