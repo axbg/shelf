@@ -25,14 +25,19 @@
               <span class="md-list-item-text">Add New Bookmark</span>
             </md-list-item>
           </md-ripple>
-          <md-ripple class="pointer">
+          <md-ripple>
             <md-list-item>
               <md-icon>move_to_inbox</md-icon>
               <span class="md-list-item-text">All</span>
             </md-list-item>
           </md-ripple>
+          <md-ripple class="pointer">
+            <md-list-item @click="logout">
+              <md-icon class="accent-pink">logout</md-icon>
+              <span class="md-list-item-text accent-pink">Logout</span>
+            </md-list-item>
+          </md-ripple>
         </md-list>
-        <p class="logout">Logout</p>
       </div>
       <div class="sidenav-short pale-pink">
         <md-list>
@@ -46,7 +51,7 @@
           <label style="margin-left: 15px;">Search</label>
           <md-input v-model="search" style="width:50%;"></md-input>
         </md-field>
-        <md-list>
+        <md-list class="left-margined">
           <md-ripple class="pointer">
             <md-list-item>
               <md-icon>add</md-icon>
@@ -57,11 +62,16 @@
               <md-icon>move_to_inbox</md-icon>
             </md-list-item>
           </md-ripple>
+          <md-ripple class="pointer">
+            <md-list-item @click="logout">
+              <md-icon class="accent-pink">logout</md-icon>
+            </md-list-item>
+          </md-ripple>
         </md-list>
       </div>
       <div class="content">
         <ShelfCard
-          v-for="(item, index) in fakeCards"
+          v-for="(item, index) in items"
           v-bind:key="index"
           v-bind:id="item.id"
           v-bind:title="item.title"
@@ -81,32 +91,39 @@ export default {
     ShelfCard
   },
   name: "home",
+  props: ["baseUrl"],
   data: () => ({
     search: null,
     loaded: false,
     searchDelay: null,
-    fakeCards: [
-      {
-        id: 1,
-        title: "Learn something",
-        url: "https://google.com"
-      },
-      {
-        id: 1,
-        title: "Learn something",
-        url: "https://google.com"
-      },
-      {
-        id: 1,
-        title: "Learn something",
-        url: "https://google.com"
-      }
-    ]
+    items: []
   }),
   beforeMount: async function() {
-    setTimeout(() => {
-      this.loaded = true;
-    }, 1000);
+    try {
+      const result = await fetch(this.baseUrl + "/item/", {
+        credentials: "include"
+      });
+
+      if (result.status === 200) {
+        this.items = await result.json();
+        this.loaded = true;
+        return;
+      }
+
+      throw "Unauthenticated";
+    } catch (err) {
+      this.$router.push("/login");
+    }
+  },
+  methods: {
+    deleteItem: function() {},
+    logout: async function() {
+      await fetch(this.baseUrl + "/user/logout", {
+        method: "POST",
+        credentials: "include"
+      });
+      this.$router.push("/login");
+    }
   },
   watch: {
     search: function() {
@@ -147,10 +164,6 @@ export default {
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.19), 0 0px 6px rgba(0, 0, 0, 0.2);
   padding: 10px;
 }
-.logout {
-  text-align: left;
-  margin-top: 68vh;
-}
 .pointer {
   cursor: pointer;
   user-select: none;
@@ -167,7 +180,16 @@ export default {
   overflow-y: auto;
 }
 .pale-pink {
-  background-color: #FFF7F8;
+  background-color: #fff7f8;
+}
+.accent-pink {
+  color: #d23669;
+}
+.md-list-item-content > .md-icon:last-child {
+  margin-left: 0px !important;
+}
+.left-margined {
+  margin-left: 8px !important;
 }
 @media only screen and (max-width: 900px) {
   .home-container {
@@ -180,7 +202,6 @@ export default {
     display: block;
   }
 }
-
 @media only screen and (max-width: 400px) {
   .content {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

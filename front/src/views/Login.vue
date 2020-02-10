@@ -33,19 +33,34 @@
 <script>
 export default {
   name: "login",
+  props: ["baseUrl"],
   data: () => ({
     googleSignInParams: {
-      client_id: "client-id.apps.googleusercontent.com"
+      client_id:
+        "1046129257000-qeas2setm1pk48v9l337n090u9lejabj.apps.googleusercontent.com"
     }
   }),
   methods: {
-    onSignInSuccess(googleUser) {
-      const profile = googleUser.getBasicProfile();
-      alert(JSON.stringify(profile));
+    async onSignInSuccess(googleUser) {
+      console.log(googleUser[Object.keys(googleUser)[1]].id_token);
+      const loginResponse = await fetch(this.baseUrl + "/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          gToken: googleUser[Object.keys(googleUser)[1]].id_token
+        })
+      });
+
+      //postman debugging
+      console.log(loginResponse);
       this.$router.push("/");
     },
     onSignInError(error) {
       alert(error);
+      //display toastr
     }
   }
 };
@@ -64,7 +79,7 @@ export default {
 }
 .login-title {
   font-size: 4em;
-  color: #D23669;
+  color: #d23669;
   margin: 0 auto;
 }
 .g-signin-button {
@@ -72,7 +87,7 @@ export default {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 3px;
-  background-color: #D23669;
+  background-color: #d23669;
 }
 .particles-wrapper {
   position: absolute;
