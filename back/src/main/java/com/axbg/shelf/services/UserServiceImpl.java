@@ -1,5 +1,6 @@
 package com.axbg.shelf.services;
 
+import com.axbg.shelf.dao.CollectionDao;
 import com.axbg.shelf.dao.UserDao;
 import com.axbg.shelf.entity.Collection;
 import com.axbg.shelf.entity.User;
@@ -9,7 +10,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,13 +25,12 @@ import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Value("${shelf.app.google.id}")
-    private static String CLIENT_ID;
-
+    private static String clientId;
     private final UserDao userDao;
+    private final CollectionDao collectionDao;
 
     @Override
     public User findUser() {
@@ -48,14 +48,19 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("Required fields are empty", HttpStatus.BAD_REQUEST);
         }
 
-        User user = userDao.save(new User(email, firstName));
-        user.setCollectionList(Collections.singletonList(Collection.builder().name(UNSORTED_COLLECTION).build()));
+        User toSave = new User(email, firstName);
+        User user = userDao.save(toSave);
+
+        Collection collection = Collection.builder().name(UNSORTED_COLLECTION).build();
+        collectionDao.save(collection);
+
+        collection.setUser(user);
     }
 
     @Override
     public String verifyGoogleAccount(final String gToken) throws CustomException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList(CLIENT_ID))
+                .setAudience(Collections.singletonList(clientId))
                 .build();
 
         try {
@@ -90,5 +95,10 @@ public class UserServiceImpl implements UserService {
 
     private String getUserEmail() {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @Value("${shelf.app.google.id}")
+    private void setClientId(String id) {
+        clientId = id;
     }
 }

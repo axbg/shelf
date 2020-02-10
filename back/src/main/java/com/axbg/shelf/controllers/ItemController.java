@@ -4,6 +4,7 @@ import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.exception.CustomException;
 import com.axbg.shelf.services.ItemService;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,21 +36,21 @@ public class ItemController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(params = "checkableUrl")
-    public ResponseEntity<String> isItemPresent(@RequestParam String checkableUrl) {
-        return itemService.isPresentByUrl(checkableUrl) ?
+    @PostMapping
+    public ResponseEntity<Item> createItem(@RequestBody Map<String, String> request) throws CustomException {
+        return new ResponseEntity<>(itemService.createItem(request.get("url")), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/check")
+    public ResponseEntity<String> isItemPresent(@RequestBody Map<String, String> request) {
+        return itemService.isPresentByUrl(request.get("url")) ?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(params = "title")
-    public ResponseEntity<List<Item>> searchItem(@RequestBody String title) {
-        return new ResponseEntity<>(itemService.searchByName(title), HttpStatus.OK);
-    }
-
-    @PostMapping(params = "url")
-    public ResponseEntity<Item> createItem(@RequestBody String url) throws CustomException {
-        return new ResponseEntity<>(itemService.createItem(url), HttpStatus.OK);
+    @PostMapping(path = "/search")
+    public ResponseEntity<List<Item>> searchItem(@RequestBody Map<String, String> request) {
+        return new ResponseEntity<>(itemService.searchByName(request.get("title")), HttpStatus.OK);
     }
 
     @DeleteMapping

@@ -53,8 +53,8 @@ public class JwtUtils {
         Cookie jwtCookie = new Cookie("X-AUTH", jwt);
         jwtCookie.setPath("/");
         jwtCookie.setHttpOnly(true);
+        jwtCookie.setMaxAge(expiration);
 //        jwtCookie.setSecure(true);
         return jwtCookie;
     }
-
 }

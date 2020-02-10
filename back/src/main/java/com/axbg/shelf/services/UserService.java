@@ -2,7 +2,6 @@ package com.axbg.shelf.services;
 
 import com.axbg.shelf.entity.User;
 import com.axbg.shelf.exception.CustomException;
-
 import java.util.Optional;
 
 public interface UserService {

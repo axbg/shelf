@@ -1,5 +1,6 @@
 package com.axbg.shelf.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +25,6 @@ public class Collection {
     private List<Item> items;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 }
