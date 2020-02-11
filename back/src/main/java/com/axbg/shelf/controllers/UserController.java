@@ -1,5 +1,6 @@
 package com.axbg.shelf.controllers;
 
+import com.axbg.shelf.entity.User;
 import com.axbg.shelf.exception.CustomException;
 import com.axbg.shelf.security.JwtUtils;
 import com.axbg.shelf.services.UserService;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> request, HttpServletResponse response) throws CustomException {
+    public ResponseEntity<User> login(@RequestBody Map<String, String> request, HttpServletResponse response) throws CustomException {
         String jwt = userService.verifyGoogleAccount(request.get("gToken"));
         response.addCookie(JwtUtils.generateJwtCookie(jwt));
         return new ResponseEntity<>(HttpStatus.OK);

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ItemService {
-    List<Item> findAllByUser();
+    List<Item> findAllByUserAndPage(int page, int size);
 
     Optional<Item> findByIdAndUser(long id);
 

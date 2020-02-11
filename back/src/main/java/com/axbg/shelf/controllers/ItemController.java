@@ -5,12 +5,12 @@ import com.axbg.shelf.exception.CustomException;
 import com.axbg.shelf.services.ItemService;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,15 +25,20 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public ResponseEntity<List<Item>> getItems() {
-        return new ResponseEntity<>(itemService.findAllByUser(), HttpStatus.OK);
+    public ResponseEntity<List<Item>> getItems(@RequestParam int page, @RequestParam int size) {
+        return new ResponseEntity<>(itemService.findAllByUserAndPage(page, size), HttpStatus.OK);
     }
 
-    @GetMapping(params = "id")
-    public ResponseEntity<Item> getItem(@RequestParam("id") long id) {
-        Optional<Item> item = itemService.findByIdAndUser(id);
-        return item.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @GetMapping(path = "/search")
+    public ResponseEntity<List<Item>> searchItem(@RequestParam String title) {
+        return new ResponseEntity<>(itemService.searchByName(title), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/check")
+    public ResponseEntity<String> isItemPresent(@RequestParam Map<String, String> request) {
+        return itemService.isPresentByUrl(request.get("url")) ?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
@@ -41,20 +46,8 @@ public class ItemController {
         return new ResponseEntity<>(itemService.createItem(request.get("url")), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/check")
-    public ResponseEntity<String> isItemPresent(@RequestBody Map<String, String> request) {
-        return itemService.isPresentByUrl(request.get("url")) ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping(path = "/search")
-    public ResponseEntity<List<Item>> searchItem(@RequestBody Map<String, String> request) {
-        return new ResponseEntity<>(itemService.searchByName(request.get("title")), HttpStatus.OK);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<String> deleteItem(@RequestParam("id") long id) {
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable("id") long id) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

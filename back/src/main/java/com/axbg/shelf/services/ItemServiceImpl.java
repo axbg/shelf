@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +57,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> findAllByUser() {
-        return itemDao.findAllByUser(userService.findUser());
+    public List<Item> findAllByUserAndPage(int page, int size) {
+        return itemDao.findAllByUser(userService.findUser(), PageRequest.of(page, size, Sort.by("id").descending()));
     }
 
     @Override
