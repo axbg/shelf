@@ -1,26 +1,28 @@
 <template>
-  <div @click="openPage">
+  <div>
     <md-card v-bind:id="id" class="pale-pink" md-with-hover>
-      <md-card-header>
-        <md-card-header-text class="big-title">
-          <p>
-            {{ title }}
-          </p>
-        </md-card-header-text>
-        <md-card-media style="margin: 0 auto;">
-          <img src="/img/icons/favicon-32x32.png" alt="Avatar" />
-        </md-card-media>
-      </md-card-header>
-      <md-card-content class="card-content card-title">
-        <md-card-header-text>
-          <p>
-            {{ title }}
-          </p>
-        </md-card-header-text>
-      </md-card-content>
-      <md-card-actions md-alignment="right">
-        <md-button @click="remove" style="color: #d23669">remove</md-button>
-      </md-card-actions>
+      <a class="clickable-card accent-pink" v-bind:href="url" target="blank">
+        <md-card-header>
+          <md-card-header-text class="big-title">
+            <p>
+              {{ title }}
+            </p>
+          </md-card-header-text>
+          <md-card-media style="margin: 0 auto;">
+            <img src="/img/icons/favicon-32x32.png" alt="Avatar" />
+          </md-card-media>
+        </md-card-header>
+        <md-card-content class="card-content card-title">
+          <md-card-header-text>
+            <p>
+              {{ title }}
+            </p>
+          </md-card-header-text>
+        </md-card-content>
+        <md-card-actions md-alignment="right">
+          <md-button @click="remove" style="color: #d23669">remove</md-button>
+        </md-card-actions>
+      </a>
     </md-card>
   </div>
 </template>
@@ -40,8 +42,9 @@ export default {
       alert(this.url);
     },
     remove: function(event) {
+      event.preventDefault();
       event.stopPropagation();
-      alert("removing");
+      this.$emit("remove-item", this.id);
     }
   }
 };
@@ -69,7 +72,9 @@ export default {
   height: 130px;
   overflow: hidden;
 }
-
+.clickable-card {
+  text-decoration: none !important;
+}
 @media only screen and (max-width: 400px) {
   .big-title {
     display: none;

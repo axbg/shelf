@@ -42,7 +42,6 @@ export default {
   }),
   methods: {
     async onSignInSuccess(googleUser) {
-      console.log(googleUser[Object.keys(googleUser)[1]].id_token);
       const loginResponse = await fetch(this.baseUrl + "/user/login", {
         method: "POST",
         headers: {
@@ -50,13 +49,20 @@ export default {
         },
         credentials: "include",
         body: JSON.stringify({
-          gToken: googleUser[Object.keys(googleUser)[1]].id_token
+          gToken: googleUser.getAuthResponse().id_token
         })
       });
-
-      //postman debugging
-      console.log(loginResponse);
-      this.$router.push("/");
+      if (loginResponse.status === 200) {
+        window.localStorage.setItem(
+          "firstname",
+          googleUser.getBasicProfile().getGivenName()
+        );
+        window.localStorage.setItem(
+          "photo",
+          googleUser.getBasicProfile().getImageUrl()
+        );
+        location.reload();
+      }
     },
     onSignInError(error) {
       alert(error);
@@ -88,6 +94,7 @@ export default {
   padding: 4px 8px;
   border-radius: 3px;
   background-color: #d23669;
+  color: white;
 }
 .particles-wrapper {
   position: absolute;
