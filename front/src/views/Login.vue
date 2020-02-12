@@ -52,6 +52,7 @@ export default {
           gToken: googleUser.getAuthResponse().id_token
         })
       });
+      console.log(googleUser.getAuthResponse().id_token);
       if (loginResponse.status === 200) {
         window.localStorage.setItem(
           "firstname",

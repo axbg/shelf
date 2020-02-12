@@ -9,7 +9,7 @@
             </p>
           </md-card-header-text>
           <md-card-media style="margin: 0 auto;">
-            <img src="/img/icons/favicon-32x32.png" alt="Avatar" />
+            <img v-bind:src="photo" alt="Avatar" />
           </md-card-media>
         </md-card-header>
         <md-card-content class="card-content card-title">

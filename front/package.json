@@ -12,6 +12,7 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-google-signin-button": "^1.0.4",
+    "vue-infinite-loading": "^2.4.4",
     "vue-material": "^1.0.0-beta-11",
     "vue-particles": "^1.0.9",
     "vue-spinner": "^1.0.3"

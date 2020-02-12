@@ -43,7 +43,7 @@
       </md-field>
       <md-list class="left-margined">
         <md-ripple class="pointer">
-          <md-list-item>
+          <md-list-item @click="reset">
             <md-icon class="accent-pink">cancel</md-icon>
           </md-list-item>
         </md-ripple>

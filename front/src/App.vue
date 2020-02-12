@@ -89,6 +89,19 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff7f8;
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+  background: #d23669;
+}
+
 .spinner-container {
   height: 100%;
   padding-top: 40vh;
