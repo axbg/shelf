@@ -17,4 +17,6 @@ public interface ItemDao extends CrudRepository<Item, Long> {
 
     @Query("SELECT i from Item i where i.collection.user = ?1 and i.url = ?2")
     Optional<Item> findByUserAndUrl(User user, String url);
+
+    void deleteItemById(long id);
 }

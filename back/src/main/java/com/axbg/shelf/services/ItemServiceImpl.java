@@ -14,7 +14,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class ItemServiceImpl implements ItemService {
             Document doc = Jsoup.connect(url).get();
             String title = doc.title();
             Element favicon = doc.head().select("link[rel~=icon]").first();
-            String photo = favicon != null ? favicon.attr("href") : DEFAULT_FAVICON;
+            String photo = favicon != null ? getFaviconUrl(url, favicon.attr("href")) : DEFAULT_FAVICON;
 
             Item item = Item.builder()
                     .url(url)
@@ -78,7 +77,29 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.findByUserAndUrl(userService.findUser(), url).isPresent();
     }
 
+    @Override
+    public void deleteItem(final long id) {
+        itemDao.deleteItemById(id);
+    }
+
     private boolean verifyUrl(String url) {
         return !url.isBlank() && (url.contains("http://") || url.contains("https://"));
+    }
+
+    private String getFaviconUrl(String fullUrl, String faviconRoute) {
+        return faviconRoute.contains("http") ? faviconRoute : fullUrl.substring(0, getUrlRoot(fullUrl)) + faviconRoute;
+    }
+
+    private int getUrlRoot(String fullUrl) {
+        int i = 0;
+        for (int ct = 0; i < fullUrl.length(); i++) {
+            if (fullUrl.charAt(i) == '/') {
+                ct++;
+                if (ct == 3) {
+                    return i;
+                }
+            }
+        }
+        return i;
     }
 }
