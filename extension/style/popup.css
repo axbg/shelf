@@ -7,13 +7,17 @@
 html, body {
     margin: 0;
     width: 200px;
-    height: 120px;
+    height: 150px;
 }
 
-#button {
+#login {
+    display: none;
+}
+
+.action-button {
     background-color: var(--secondary-accent-color); 
     color: black; 
-    padding: 16px 32px;
+    padding: 10px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -22,9 +26,10 @@ html, body {
     transition-duration: 0.4s;
     cursor: pointer;
     border: 0;
+    display: none;
 }
 
-#button:hover {
+.action-button {
     background-color: var(--accent-color);
     color: white;
 }
@@ -41,10 +46,9 @@ html, body {
 .title {
     margin: 0;
     font-size: 3em;
-    margin-bottom: 5px;
 }
 
-.loader {
+#loader {
     border: 10px solid var(--secondary-accent-color);
     border-top: 10px solid var(--accent-color);
     border-radius: 50%;
@@ -52,7 +56,12 @@ html, body {
     height: 30px;
     animation: spin 0.5s linear infinite;
     margin: 0 auto;
+}
+
+#check-result {
+    font-size: 25px;
     display: none;
+    padding-bottom: 20px;
 }
   
   @keyframes spin {

@@ -3,15 +3,22 @@
 
 <head>
     <link rel="stylesheet" href="style/popup.css">
+    <meta charset="UTF-8">
 </head>
 
 <body>
     <div id="container">
         <h1 class="title">shelf</h1>
-        <div id="loader" class="loader"></div>
-        <button id="button">Add to Shelf</button>
+        <div id="loader"></div>
+        <div id="check-result"></div>
+        <button id="login">Login with Google</button>
+        <button id="add" class="action-button">Add to Shelf</button>
+        <button id="remove" class="action-button">Remove</button>
     </div>
+    <script src="js/oauth.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/popup.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
