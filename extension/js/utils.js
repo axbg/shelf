@@ -11,7 +11,11 @@ const getAuthCookie = function (domain, cookieName) {
 };
 
 const getCurrentUrl = async function () {
-
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
+            resolve({url: tabs[0].url, favicon: tabs[0].favIconUrl, title: tabs[0].title});
+        });
+    });
 };
 
 const login = async function () {
