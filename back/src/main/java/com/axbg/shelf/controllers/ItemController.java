@@ -44,12 +44,24 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Item> createItem(@RequestBody Map<String, String> request) throws CustomException {
-        return new ResponseEntity<>(itemService.createItem(request.get("url")), HttpStatus.OK);
+        validateItemRequest(request);
+        return new ResponseEntity<Item>(itemService.createItem(request.get("url"), request.get("title"), request.get("photo")));
+    }
+
+    @PostMapping(path ="/scrap")
+    public ResponseEntity<Item> scrapAndCreateItem(@RequestBody Map<String, String> request) throws CustomException {
+        return new ResponseEntity<Item>(itemService.scrapAndCreateItem(request.get("url")), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable("id") long id) {
         itemService.deleteItem(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void validateItemRequest(Map<String, String> request) throws CustomException {
+        if(request.get("url").isEmpty || request.get("title").isEmpty || request.get("photo").isEmpty) {
+            throw new CustomException("Invalid request", HttpStatus.BAD_REQUEST);
+        }
     }
 }

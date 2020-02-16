@@ -14,7 +14,9 @@ public interface ItemService {
 
     boolean isPresentByUrl(String url);
 
-    Item createItem(String url) throws CustomException;
+    Item createItem(String url, String title, String favicon);
+
+    Item scrapAndCreateItem(String url) throws CustomException;
 
     void deleteItem(long id);
 }

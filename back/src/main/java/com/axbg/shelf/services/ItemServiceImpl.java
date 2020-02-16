@@ -28,7 +28,19 @@ public class ItemServiceImpl implements ItemService {
     private final CollectionService collectionService;
 
     @Override
-    public Item createItem(final String url) throws CustomException {
+    public Item createItem(String url, String title, String photo) {
+        Item item = Item.builder()
+                .url(url)
+                .title(title)
+                .photo(photo)
+                .collection(collectionService.findByName(UNSORTED_COLLECTION))
+                .build();
+
+        return itemDao.save(item);
+    }
+
+    @Override
+    public Item scrapAndCreateItem(final String url) throws CustomException {
         try {
             if (!verifyUrl(url)) {
                 throw new CustomException("Invalid URL", HttpStatus.BAD_REQUEST);
@@ -39,14 +51,7 @@ public class ItemServiceImpl implements ItemService {
             Element favicon = doc.head().select("link[rel~=icon]").first();
             String photo = favicon != null ? getFaviconUrl(url, favicon.attr("href")) : DEFAULT_FAVICON;
 
-            Item item = Item.builder()
-                    .url(url)
-                    .title(title)
-                    .photo(photo)
-                    .collection(collectionService.findByName(UNSORTED_COLLECTION))
-                    .build();
-
-            return itemDao.save(item);
+            return createItem(url, title, photo);
         } catch (CustomException ex) {
             throw ex;
         } catch (Exception ex) {
