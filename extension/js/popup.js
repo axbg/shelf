@@ -77,8 +77,8 @@ const executeCheckCurrentUrl = async function () {
     return result;
 };
 
-const loginAndCheckCurrentUrl = async function () {
-    await login();
+const loginAndCheckCurrentUrl = async function (idToken) {
+    await login(idToken);
     await executeCheckCurrentUrl();
     return true;
 };
@@ -86,7 +86,7 @@ const loginAndCheckCurrentUrl = async function () {
 const handleLoginProcess = async function () {
     const idToken = await getIdTokenInteractively(false);
     if (idToken) {
-        loginAndCheckCurrentUrl();
+        loginAndCheckCurrentUrl(idToken);
     } else {
         bindInteractiveLogin();
     }
@@ -95,17 +95,27 @@ const handleLoginProcess = async function () {
 const handleAddItem = async function () {
     hideResult();
     toggleLoader(true);
-    setTimeout(() => {
-        toggleLoader(false);
+
+    const result = await addItem();
+
+    toggleLoader(false);
+    if (result) {
         toggleCheckResult(true);
-    }, 2000)
+    } else {
+        toggleCheckResult(false);
+    }
 };
 
 const handleRemoveItem = async function () {
     hideResult();
     toggleLoader(true);
-    setTimeout(() => {
-        toggleLoader(false);
+
+    const result = await removeItem();
+
+    toggleLoader(false);
+    if (result) {
         toggleCheckResult(false);
-    }, 2000)
+    } else {
+        toggleCheckResult(true);
+    }
 };

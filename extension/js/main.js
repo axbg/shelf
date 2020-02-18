@@ -1,5 +1,5 @@
 window.onload = async function () {
-    const cookie = await getAuthCookie("http://google.com", "CONSENT");
+    const cookie = await getAuthCookie(frontUrl, "X-AUTH");
 
     if (cookie) {
         const result = await executeCheckCurrentUrl();

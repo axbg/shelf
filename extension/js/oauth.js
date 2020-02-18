@@ -12,8 +12,7 @@ const getIdTokenInteractively = function (interactive) {
       '&access_type=offline' +
       '&redirect_uri=' + redirectUri +
       '&scope=' + scopes +
-      '&nonce=somenoncehere' +
-      '&prompt=';
+      '&nonce=somenoncehere';
 
     chrome.identity.launchWebAuthFlow(
       {
@@ -25,7 +24,7 @@ const getIdTokenInteractively = function (interactive) {
           resolve(null);
         }
         else {
-          const response = redirectedTo.split('#', 2)[1];
+          const response = redirectedTo.split('#', 2)[1].split('=')[1].split('&')[0];
           resolve(response);
         }
       }
