@@ -2,7 +2,7 @@
   <div style="width:100%;height:100%;">
     <div class="sidenav pale-pink">
       <md-list>
-        <md-list-item>
+        <md-list-item v-if="displayUserInfo">
           <md-avatar>
             <img v-bind:src="photo" alt="user-photo" />
           </md-avatar>
@@ -64,12 +64,18 @@ export default {
   data: () => ({
     firstname: "",
     photo: "",
+    displayUserInfo: true,
     search: null,
     searchDelay: null
   }),
   beforeMount: function() {
     this.firstname = window.localStorage.getItem("firstname");
     this.photo = window.localStorage.getItem("photo");
+  },
+  mounted: function() {
+    if (!this.firstname || !this.photo) {
+      this.displayUserInfo = false;
+    }
   },
   methods: {
     reset: async function() {
