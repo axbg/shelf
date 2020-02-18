@@ -44,7 +44,7 @@ public class ItemServiceTest {
 
     @Test
     public void createItemTest() throws CustomException {
-        Item actualItem = itemService.createItem(URL);
+        Item actualItem = itemService.scrapAndCreateItem(URL);
 
         assertThat(actualItem.getUrl()).isEqualTo(expectedItem.getUrl());
         assertThat(actualItem.getTitle()).isEqualTo(expectedItem.getTitle());

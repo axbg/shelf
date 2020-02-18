@@ -45,12 +45,18 @@ public class ItemController {
     @PostMapping
     public ResponseEntity<Item> createItem(@RequestBody Map<String, String> request) throws CustomException {
         validateItemRequest(request);
-        return new ResponseEntity<Item>(itemService.createItem(request.get("url"), request.get("title"), request.get("photo")));
+        return new ResponseEntity<>(itemService.createItem(request.get("url"), request.get("title"), request.get("photo")), HttpStatus.CREATED);
     }
 
     @PostMapping(path ="/scrap")
     public ResponseEntity<Item> scrapAndCreateItem(@RequestBody Map<String, String> request) throws CustomException {
-        return new ResponseEntity<Item>(itemService.scrapAndCreateItem(request.get("url")), HttpStatus.OK);
+        return new ResponseEntity<>(itemService.scrapAndCreateItem(request.get("url")), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteItemByUrl(@RequestParam String url) {
+        itemService.deleteItemByUrl(url);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -60,7 +66,7 @@ public class ItemController {
     }
 
     private void validateItemRequest(Map<String, String> request) throws CustomException {
-        if(request.get("url").isEmpty || request.get("title").isEmpty || request.get("photo").isEmpty) {
+        if(request.get("url").isEmpty() || request.get("title").isEmpty() || request.get("photo").isEmpty()) {
             throw new CustomException("Invalid request", HttpStatus.BAD_REQUEST);
         }
     }

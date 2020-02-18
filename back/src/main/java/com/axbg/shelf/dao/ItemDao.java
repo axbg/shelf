@@ -3,7 +3,6 @@ package com.axbg.shelf.dao;
 import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.entity.User;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,4 +18,6 @@ public interface ItemDao extends CrudRepository<Item, Long> {
     Optional<Item> findByUserAndUrl(User user, String url);
 
     void deleteItemById(long id);
+
+    void deleteItemByUrl(String url);
 }

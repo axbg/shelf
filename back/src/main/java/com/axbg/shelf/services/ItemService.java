@@ -19,4 +19,6 @@ public interface ItemService {
     Item scrapAndCreateItem(String url) throws CustomException;
 
     void deleteItem(long id);
+
+    void deleteItemByUrl(String url);
 }

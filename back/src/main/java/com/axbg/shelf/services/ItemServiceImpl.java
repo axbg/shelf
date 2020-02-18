@@ -87,6 +87,11 @@ public class ItemServiceImpl implements ItemService {
         itemDao.deleteItemById(id);
     }
 
+    @Override
+    public void deleteItemByUrl(final String url) {
+        itemDao.deleteItemByUrl(url);
+    }
+
     private boolean verifyUrl(String url) {
         return !url.isBlank() && (url.contains("http://") || url.contains("https://"));
     }
