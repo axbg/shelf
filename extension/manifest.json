@@ -1,0 +1,34 @@
+{
+    "name": "shelf",
+    "version": "1.0",
+    "description": "Your seamless bookmark manager",
+    "permissions": [
+        "http://localhost:8081/",
+        "storage",
+        "identity",
+        "tabs",
+        "cookies",
+        "http://localhost:8081/"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_icon": {
+            "32": "icons/32.png"
+        },
+        "default_title": "shelf",
+        "default_popup": "index.html"
+    },
+    "manifest_version": 2,
+    "key": "YOUR_PUBLIC_KEY",
+    "oauth2": {
+        "client_id": "YOUR_WEB_AUTH_KEY.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/userinfo.email"
+        ]
+    }
+}
