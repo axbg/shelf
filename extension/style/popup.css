@@ -12,6 +12,7 @@ html, body {
 
 #login {
     display: none;
+    margin-top: 10px;
 }
 
 .action-button {
