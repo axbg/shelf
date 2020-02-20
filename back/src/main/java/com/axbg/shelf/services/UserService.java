@@ -9,7 +9,7 @@ public interface UserService {
 
     Optional<User> findUserByEmail(String email);
 
-    void registerUser(String email, String firstName) throws CustomException;
+    void registerUser(String email, String firstName, String photo) throws CustomException;
 
     String verifyGoogleAccount(String gToken) throws CustomException;
 

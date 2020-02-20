@@ -1,5 +1,6 @@
 package com.axbg.shelf.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.Instant;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
+@JsonIgnoreProperties({ "id", "email", "lastReset", "collectionList" })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +28,17 @@ public class User {
 
     private String firstName;
 
+    private String photo;
+
     private Instant lastReset;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Collection> collectionList;
 
-    public User(String email, String firstName) {
+    public User(String email, String firstName, String photo) {
         this.email = email;
         this.firstName = firstName;
+        this.photo = photo;
         this.lastReset = Instant.now();
     }
 }
