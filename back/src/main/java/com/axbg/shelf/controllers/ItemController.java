@@ -8,7 +8,6 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,14 +47,14 @@ public class ItemController {
         return new ResponseEntity<>(itemService.createItem(request.get("url"), request.get("title"), request.get("photo")), HttpStatus.CREATED);
     }
 
-    @PostMapping(path ="/scrap")
+    @PostMapping(path = "/scrap")
     public ResponseEntity<Item> scrapAndCreateItem(@RequestBody Map<String, String> request) throws CustomException {
         return new ResponseEntity<>(itemService.scrapAndCreateItem(request.get("url")), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteItemByUrl(@RequestParam String url) {
-        itemService.deleteItemByUrl(url);
+    public ResponseEntity<String> deleteItemByUrl(@RequestBody Map<String, String> request) {
+        itemService.deleteItemByUrl(request.get("url"));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -66,7 +65,7 @@ public class ItemController {
     }
 
     private void validateItemRequest(Map<String, String> request) throws CustomException {
-        if(request.get("url").isEmpty() || request.get("title").isEmpty() || request.get("photo").isEmpty()) {
+        if (request.get("url").isEmpty() || request.get("title").isEmpty() || request.get("photo").isEmpty()) {
             throw new CustomException("Invalid request", HttpStatus.BAD_REQUEST);
         }
     }
