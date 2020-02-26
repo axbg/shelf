@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <title>Shelf - Save Bookmark</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg-color: #fff7f8;
+            --accent-color: #d23669;
+            --second-accent-color: #ffc0cb;
+        }
+
+        html,
+        body,
+        .container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        .container {
+            color: var(--accent-color);
+            background-color: var(--bg-color);
+            text-align: center;
+            overflow-y: hidden;
+        }
+
+        p {
+            margin: 0 auto;
+            font-size: 18px;
+            word-break: break-all;
+            padding: 20px;
+        }
+
+        .success {
+            display: none;
+            font-size: 60px;
+            margin-top: 20vh;
+        }
+
+        .loader {
+            display: none;
+            margin: 0 auto;
+            margin-top: 20vh;
+            border: 12px solid var(--accent-color);
+            border-top: 12px solid var(--second-accent-color);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            Shelf
+        </h1>
+        <p id="urlHolder"></p>
+        <div class="loader"></div>
+        <div class="success">✔️</div>
+    </div>
+</body>
+<script>
+    window.addEventListener("DOMContentLoaded", async () => {
+        const parsedUrl = new URL(window.location);
+        const url = parsedUrl.searchParams.get("text");
+        const urlHolder = document.getElementById("urlHolder");
+
+        if (url && url !== "" && url.includes("http")) {
+            const loader = document.querySelector(".loader");
+
+            urlHolder.innerText = url;
+            loader.style.display = "block";
+
+            const result = await fetch("/api/item/scrap", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: url
+                })
+            });
+
+            loader.style.display = "none";
+
+            if (result.status === 200) {
+                document.querySelector(".success").style.display = "block";
+            } else {
+                urlHolder.innerText = "Error when saving the bookmark";
+            }
+        } else {
+            urlHolder.innerText = "The URL is not available";
+        }
+    });
+</script>
+
+</html>

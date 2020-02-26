@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && node prepare-manifest.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -44,6 +44,15 @@
     },
     "parserOptions": {
       "parser": "babel-eslint"
+    }
+  },
+  "vue": {
+    "pwa": {
+      "themeColor": "#FFFFFF",
+      "workboxPluginMode": "InjectManifest",
+      "workboxOptions": {
+        "swSrc": "src/service-worker.js"
+      }
     }
   },
   "browserslist": [

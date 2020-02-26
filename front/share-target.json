@@ -1,0 +1,11 @@
+{
+    "share_target": {
+        "action": "/share.html",
+        "method": "GET",
+        "params": {
+            "title": "name",
+            "text": "description",
+            "url": "link"
+        }
+    }
+}
