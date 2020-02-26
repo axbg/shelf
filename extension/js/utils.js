@@ -1,5 +1,5 @@
-const baseUrl = "BACK-URL";
-const frontUrl = "FRONT-URL";
+const baseUrl = "FRONT_URL";
+const frontUrl = "BACK_URL";
 
 const getAuthCookie = function (domain, cookieName) {
     return new Promise((resolve, reject) => {
@@ -40,9 +40,15 @@ const login = async function (idToken) {
 
 const checkCurrentUrl = async function () {
     const currentUrl = await getCurrentUrl();
+
     if (currentUrl) {
-        const response = await fetch(baseUrl + "/api/item/check?url=" + currentUrl.url, {
-            credentials: "include"
+        const response = await fetch(baseUrl + "/api/item/check", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ url: currentUrl.url })
         });
         return response.status === 200 ? true :
             (response.status === 404) ? false : null;
@@ -70,7 +76,11 @@ const removeItem = async function () {
     const currentUrl = await getCurrentUrl();
     const response = await fetch(baseUrl + "/api/item?url=" + currentUrl.url, {
         method: "DELETE",
-        credentials: "include"
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ url: currentUrl.url })
     });
 
     return response.status === 200 ? true : false;

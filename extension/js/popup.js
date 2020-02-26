@@ -49,8 +49,9 @@ const bindInteractiveLogin = function () {
     const loginButton = document.getElementById("login");
     toggleLoader(false);
     loginButton.style.display = "block";
-    loginButton.addEventListener("click", function () {
-        getIdTokenInteractively(true);
+    loginButton.addEventListener("click", async function () {
+        await getIdTokenInteractively(true);
+        window.close();
     });
 };
 

@@ -3,12 +3,12 @@
     "version": "1.0",
     "description": "Your seamless bookmark manager",
     "permissions": [
-        "http://localhost:8081/",
+        "FRONT_END_DOMAIN.com/",
         "storage",
         "identity",
         "tabs",
         "cookies",
-        "http://localhost:8081/"
+        "FRONT_END_DOMAIN.com/"
     ],
     "background": {
         "scripts": [
@@ -26,7 +26,7 @@
     "manifest_version": 2,
     "key": "YOUR_PUBLIC_KEY",
     "oauth2": {
-        "client_id": "YOUR_WEB_AUTH_KEY.apps.googleusercontent.com",
+        "client_id": "YOUR_WEB_AUTH_CLIENT_ID.apps.googleusercontent.com",
         "scopes": [
             "https://www.googleapis.com/auth/userinfo.email"
         ]
