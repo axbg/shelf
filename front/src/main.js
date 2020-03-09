@@ -19,6 +19,8 @@ Vue.use(InfiniteLoading, {
   }
 });
 
+Vue.prototype.$googleClientId = "GOOGLE_CLIENT_ID";
+
 new Vue({
   render: h => h(App)
 }).$mount("#app");
