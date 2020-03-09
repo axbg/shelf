@@ -34,12 +34,13 @@
 export default {
   name: "login",
   props: ["baseUrl"],
-  data: () => ({
-    googleSignInParams: {
-      client_id:
-        "1046129257000-qeas2setm1pk48v9l337n090u9lejabj.apps.googleusercontent.com"
+  data: function() {
+    return {
+      googleSignInParams: {
+        client_id: this.$googleClientId
+      }
     }
-  }),
+  },
   methods: {
     async onSignInSuccess(googleUser) {
       const loginResponse = await fetch(this.baseUrl + "/user/login", {
