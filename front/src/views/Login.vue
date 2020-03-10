@@ -66,7 +66,7 @@ export default {
         location.reload();
       }
     },
-    onSignInError(error) {
+    onSignInError() {
       alert("An error occurred while signing in");
     }
   }
