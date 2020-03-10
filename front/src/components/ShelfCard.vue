@@ -38,9 +38,6 @@ export default {
     topic: String
   },
   methods: {
-    openPage: function() {
-      alert(this.url);
-    },
     remove: function(event) {
       event.preventDefault();
       event.stopPropagation();
