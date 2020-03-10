@@ -28,6 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 .antMatchers("/api/user/login").permitAll()
                 .anyRequest().authenticated();
 
