@@ -26,13 +26,15 @@ export default {
     Login
   },
   name: "App",
-  data: () => ({
-    baseUrl: "http://localhost:8080/api",
-    loaded: false,
-    authenticated: false,
-    size: null,
-    items: []
-  }),
+  data: function() {
+    return {
+      baseUrl: this.$baseUrl,
+      loaded: false,
+      authenticated: false,
+      size: null,
+      items: []
+    }
+  },
   beforeMount: async function() {
     try {
       this.getItemListSize();

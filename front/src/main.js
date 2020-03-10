@@ -19,7 +19,8 @@ Vue.use(InfiniteLoading, {
   }
 });
 
-Vue.prototype.$googleClientId = "GOOGLE_CLIENT_ID";
+Vue.prototype.$baseUrl = process.env.VUE_APP_BASE_URL;
+Vue.prototype.$googleClientId = process.env.VUE_APP_GOOGLE_CLIENT_ID;
 
 new Vue({
   render: h => h(App)
