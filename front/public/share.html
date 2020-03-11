@@ -77,8 +77,8 @@
     window.addEventListener("DOMContentLoaded", async () => {
         const parsedUrl = new URL(window.location);
         const text = parsedUrl.searchParams.get("text");
-	const description = parsedUrl.searchParams.get("description");
-	const url = text != null && text.includes("http") ? text : description;
+	    const description = parsedUrl.searchParams.get("description");
+	    const url = text != null && text.includes("http") ? text : description;
         const urlHolder = document.getElementById("urlHolder");
 
         if (url && url !== "" && url.includes("http")) {

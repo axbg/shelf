@@ -51,7 +51,7 @@
       "name": "shelf",
       "themeColor": "#D23669",
       "manifestOptions": {
-      	"background_color": "#FFF7F8" 
+        "background_color": "#FFF7F8"
       },
       "workboxPluginMode": "InjectManifest",
       "workboxOptions": {
