@@ -42,7 +42,7 @@
 * Manually
   * Front
       * Repeat the same steps untill ```npm install``` (included)
-      * ```node prepare-manifest.js```
+      * ```npm run build```
       * Copy the content produced in the dist/ directory to back/src/main/resources/
   * Back
       * The same steps as in development deployment
