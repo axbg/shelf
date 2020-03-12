@@ -39,7 +39,7 @@ export default {
       googleSignInParams: {
         client_id: this.$googleClientId
       }
-    }
+    };
   },
   methods: {
     async onSignInSuccess(googleUser) {
