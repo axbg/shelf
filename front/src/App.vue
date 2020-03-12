@@ -33,7 +33,7 @@ export default {
       authenticated: false,
       size: null,
       items: []
-    }
+    };
   },
   beforeMount: async function() {
     try {

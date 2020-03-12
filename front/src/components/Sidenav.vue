@@ -1,5 +1,14 @@
 <template>
   <div style="width:100%;height:100%;">
+    <md-dialog-prompt
+      :md-active.sync="showDialog"
+      v-model="url"
+      md-title="Add a new item"
+      md-input-maxlength="150"
+      md-input-placeholder="Insert the URL"
+      md-confirm-text="Save"
+      @md-confirm="dialogConfirm"
+    />
     <div class="sidenav pale-pink">
       <md-list>
         <md-list-item>
@@ -15,6 +24,14 @@
         <md-input v-model="search" class="half-sized accent-pink"></md-input>
       </md-field>
       <md-list>
+        <md-ripple class="pointer">
+          <md-list-item @click="showDialog = true">
+            <md-icon class="accent-pink">add</md-icon>
+            <span class="md-list-item-text accent-pink">{{
+              newItemStatus
+            }}</span>
+          </md-list-item>
+        </md-ripple>
         <md-ripple class="pointer">
           <md-list-item @click="reset">
             <md-icon class="accent-pink">cancel</md-icon>
@@ -43,6 +60,9 @@
       </md-field>
       <md-list class="left-margined">
         <md-ripple class="pointer">
+          <md-list-item @click="showDialog = true">
+            <md-icon class="accent-pink">add</md-icon>
+          </md-list-item>
           <md-list-item @click="reset">
             <md-icon class="accent-pink">cancel</md-icon>
           </md-list-item>
@@ -65,7 +85,10 @@ export default {
     firstname: "",
     photo: "",
     search: null,
-    searchDelay: null
+    searchDelay: null,
+    url: null,
+    showDialog: false,
+    newItemStatus: "Add Item"
   }),
   beforeMount: function() {
     this.firstname = window.localStorage.getItem("firstname");
@@ -85,6 +108,25 @@ export default {
     }
   },
   methods: {
+    dialogConfirm: async function(event) {
+      if (event !== null && event.includes("http")) {
+        this.newItemStatus = "Loading...";
+        const result = await fetch(this.baseUrl + "/item/scrap", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify({ url: this.url })
+        });
+
+        if (result.ok) {
+          window.location.reload();
+        } else {
+          this.newItemStatus = "Add Item";
+        }
+      }
+    },
     reset: async function() {
       await fetch(this.baseUrl + "/user/reset", {
         method: "POST",
@@ -150,6 +192,9 @@ export default {
 }
 .left-margined {
   margin-left: 8px !important;
+}
+.md-dialog-container {
+  background-color: white;
 }
 @media only screen and (max-width: 900px) {
   .sidenav {
