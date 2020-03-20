@@ -40,12 +40,14 @@
 
 ##### Production deployment
 * Manually
-  * Front
-      * Repeat the same steps untill ```npm install``` (included)
-      * ```npm run build```
-      * Copy the content produced in the dist/ directory to back/src/main/resources/
-  * Back
-      * The same steps as in development deployment
+  * Really really manually
+    * Front
+        * Repeat the same steps untill ```npm install``` (included)
+        * ```npm run build```
+        * Copy the content produced in the dist/ directory to back/src/main/resources/
+    * Back
+        * The same steps as in development deployment
+  * After you complete the required credentials mentioned above you can run the ```bash.sh``` script that will produce a runnable jar in the root of the project
 * Using Docker
   * Front
     * In front/.env
