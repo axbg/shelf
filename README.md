@@ -33,6 +33,8 @@
     * Open extension/manifest.json and fill:
         * key: the public key provided in the [chrome developer console](https://chrome.google.com/webstore/developer/dashboard) *more information* box
         * client_id: the same client id used in the back-end
+    * Open extension/js/utils.js and fill:
+         * baseUrl: the url under which your application is deployed
     * Navigate to chrome://extensions
     * Enable developer mode
     * Load unpacked
