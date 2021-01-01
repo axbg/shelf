@@ -56,4 +56,4 @@
   * Fill docker.env with suitable values
     * GOOGLE_CLIENT_ID should be the same with VUE_APP_GOOGLE_CLIENT_ID
     * JWT_EXPIRATION is expressed in miliseconds
-  * ```docker-compose up```
+  * ```docker-compose up -d```
