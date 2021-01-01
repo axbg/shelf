@@ -34,7 +34,8 @@
         * key: the public key provided in the [chrome developer console](https://chrome.google.com/webstore/developer/dashboard) *more information* box
         * client_id: the same client id used in the back-end
     * Open extension/js/utils.js and fill:
-         * baseUrl: the url under which your application is deployed
+         * baseUrl: the url under which your back-end application is deployed
+         * frontUrl: the url under which your front-end application is deployed (in production it should be the same with baseUrl)
     * Navigate to chrome://extensions
     * Enable developer mode
     * Load unpacked

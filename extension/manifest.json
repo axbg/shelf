@@ -3,7 +3,6 @@
     "version": "1.0",
     "description": "Your seamless bookmark manager",
     "permissions": [
-        "FRONT_END_DOMAIN.com/",
         "storage",
         "identity",
         "tabs",

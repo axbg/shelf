@@ -1,5 +1,7 @@
-const baseUrl = "FRONT_URL";
-const frontUrl = "BACK_URL";
+const baseUrl = "https://shelf.axbg.tech";
+
+// in production it should be the same as baseUrl
+const frontUrl = baseUrl;
 
 const getAuthCookie = function (domain, cookieName) {
     return new Promise((resolve, reject) => {
@@ -42,14 +44,14 @@ const checkCurrentUrl = async function () {
     const currentUrl = await getCurrentUrl();
 
     if (currentUrl) {
-        const response = await fetch(baseUrl + "/api/item/check", {
-            method: "POST",
+        const response = await fetch(baseUrl + "/api/item/check?url=" + currentUrl.url, {
+            method: "GET",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ url: currentUrl.url })
+            }
         });
+
         return response.status === 200 ? true :
             (response.status === 404) ? false : null;
     } else {
