@@ -2,6 +2,7 @@ package com.axbg.shelf.services;
 
 import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.exception.CustomException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ public interface ItemService {
     boolean isPresentByUrl(String url);
 
     Item createItem(String url, String title, String favicon);
+
+    boolean updateItemTitle(long id, String title);
 
     Item scrapAndCreateItem(String url) throws CustomException;
 

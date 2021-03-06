@@ -1,14 +1,11 @@
-package com.axbg.shelf.services;
-
-import static com.axbg.shelf.config.Constants.DEFAULT_FAVICON;
-import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
+package com.axbg.shelf.services.impl;
 
 import com.axbg.shelf.dao.ItemDao;
 import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.exception.CustomException;
-import java.util.List;
-import java.util.Optional;
-import javax.transaction.Transactional;
+import com.axbg.shelf.services.CollectionService;
+import com.axbg.shelf.services.ItemService;
+import com.axbg.shelf.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,11 +15,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+
+import static com.axbg.shelf.config.Constants.DEFAULT_FAVICON;
+import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-
     private final ItemDao itemDao;
     private final UserService userService;
     private final CollectionService collectionService;
@@ -37,6 +40,19 @@ public class ItemServiceImpl implements ItemService {
                 .build();
 
         return itemDao.save(item);
+    }
+
+    @Override
+    public boolean updateItemTitle(long id, String title) {
+        Item item = itemDao.findByIdAndUser(id, userService.findUser()).orElse(null);
+
+        if (item != null) {
+            item.setTitle(title);
+            itemDao.save(item);
+            return true;
+        }
+
+        return false;
     }
 
     @Override

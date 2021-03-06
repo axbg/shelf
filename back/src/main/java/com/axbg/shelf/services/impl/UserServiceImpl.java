@@ -1,4 +1,4 @@
-package com.axbg.shelf.services;
+package com.axbg.shelf.services.impl;
 
 import com.axbg.shelf.dao.CollectionDao;
 import com.axbg.shelf.dao.UserDao;
@@ -6,6 +6,7 @@ import com.axbg.shelf.entity.Collection;
 import com.axbg.shelf.entity.User;
 import com.axbg.shelf.exception.CustomException;
 import com.axbg.shelf.security.JwtUtils;
+import com.axbg.shelf.services.UserService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -27,7 +28,6 @@ import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
 @Transactional
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private static String clientId;
     private final UserDao userDao;
     private final CollectionDao collectionDao;

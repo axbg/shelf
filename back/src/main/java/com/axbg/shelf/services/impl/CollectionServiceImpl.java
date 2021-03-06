@@ -1,22 +1,24 @@
-package com.axbg.shelf.services;
-
-import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
+package com.axbg.shelf.services.impl;
 
 import com.axbg.shelf.dao.CollectionDao;
 import com.axbg.shelf.entity.Collection;
 import com.axbg.shelf.exception.CustomException;
-import java.util.List;
-import javax.transaction.Transactional;
+import com.axbg.shelf.services.CollectionService;
+import com.axbg.shelf.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
+import static com.axbg.shelf.config.Constants.UNSORTED_COLLECTION;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CollectionServiceImpl implements CollectionService {
-
     private final CollectionDao collectionDao;
     private final UserService userService;
 

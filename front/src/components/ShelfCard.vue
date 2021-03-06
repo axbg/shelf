@@ -1,5 +1,14 @@
 <template>
   <div>
+    <md-dialog-prompt
+      :md-active.sync="showDialog"
+      v-model="localTitle"
+      md-title="Change title"
+      md-input-maxlength="150"
+      md-input-placeholder="localTitle"
+      md-confirm-text="Save"
+      @md-confirm="dialogConfirm"
+    />
     <md-card v-bind:id="id" class="pale-pink" md-with-hover>
       <a class="clickable-card accent-pink" v-bind:href="url" target="blank">
         <md-card-header>
@@ -8,7 +17,7 @@
               {{ title }}
             </p>
           </md-card-header-text>
-          <md-card-media style="margin: 0 auto;">
+          <md-card-media style="margin: 0 auto">
             <img v-bind:src="photo" alt="Avatar" />
           </md-card-media>
         </md-card-header>
@@ -20,6 +29,9 @@
           </md-card-header-text>
         </md-card-content>
         <md-card-actions md-alignment="right">
+          <md-button @click="displayDialog" style="color: #d23669"
+            >edit</md-button
+          >
           <md-button @click="remove" style="color: #d23669">remove</md-button>
         </md-card-actions>
       </a>
@@ -37,7 +49,30 @@ export default {
     photo: String,
     topic: String
   },
+  data: () => ({
+    localTitle: "",
+    showDialog: false
+  }),
+  created: function() {
+    this.syncLocal();
+  },
+  beforeUpdate: function() {
+    this.syncLocal();
+  },
   methods: {
+    syncLocal: function() {
+      this.localTitle = this.title;
+    },
+    displayDialog: function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.showDialog = true;
+    },
+    dialogConfirm: function(event) {
+      if (event !== this.title) {
+        this.$emit("edit-item", this.id + "#" + event);
+      }
+    },
     remove: function(event) {
       event.preventDefault();
       event.stopPropagation();

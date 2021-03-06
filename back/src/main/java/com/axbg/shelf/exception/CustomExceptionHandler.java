@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-
     @ExceptionHandler(value = { CustomException.class })
     private ResponseEntity<String> handleCustomException(CustomException ex) {
         HttpHeaders headers = new HttpHeaders();

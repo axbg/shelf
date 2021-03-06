@@ -10,6 +10,7 @@
         v-bind:title="item.title"
         v-bind:url="item.url"
         v-bind:photo="item.photo"
+        @edit-item="editItem"
         @remove-item="removeItem"
       />
       <infinite-loading
@@ -76,6 +77,37 @@ export default {
       } else {
         this.displayItems = [...this.backupItems];
         this.displayInfinite = true;
+      }
+    },
+    updateCardTitle: function(item, id, title) {
+      if (item.id == id) {
+        item.title = title;
+      }
+
+      return item;
+    },
+    editItem: async function(data) {
+      const parsed = data.split("#");
+      const itemId = parsed[0];
+      const title = parsed[1];
+
+      const result = await fetch(this.baseUrl + "/item", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ id: itemId, title: title })
+      });
+
+      if (result.ok) {
+        this.displayItems = this.displayItems.map(item =>
+          this.updateCardTitle(item, itemId, title)
+        );
+
+        this.backupItems = this.backupItems.map(item =>
+          this.updateCardTitle(item, itemId, title)
+        );
       }
     },
     removeItem: async function(itemId) {

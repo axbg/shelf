@@ -12,7 +12,7 @@ self.addEventListener("fetch", event => {
       (async () => {
         try {
           const preloadResponse = await event.preloadResponse;
-          
+
           if (preloadResponse) {
             return preloadResponse;
           }

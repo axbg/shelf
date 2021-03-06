@@ -3,25 +3,18 @@ package com.axbg.shelf.controllers;
 import com.axbg.shelf.entity.Item;
 import com.axbg.shelf.exception.CustomException;
 import com.axbg.shelf.services.ItemService;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/item")
 public class ItemController {
-
     private final ItemService itemService;
 
     @GetMapping
@@ -43,8 +36,18 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Item> createItem(@RequestBody Map<String, String> request) throws CustomException {
-        validateItemRequest(request);
+        validateCreateItemRequest(request);
         return new ResponseEntity<>(itemService.createItem(request.get("url"), request.get("title"), request.get("photo")), HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateTitle(@RequestBody Map<String, String> request) throws CustomException {
+        validateUpdateItemRequest(request);
+
+        HttpStatus status = itemService.updateItemTitle(Long.parseLong(request.get("id")), request.get("title"))
+                ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<>(status);
     }
 
     @PostMapping(path = "/scrap")
@@ -64,8 +67,14 @@ public class ItemController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void validateItemRequest(Map<String, String> request) throws CustomException {
+    private void validateCreateItemRequest(Map<String, String> request) throws CustomException {
         if (request.get("url").isEmpty() || request.get("title").isEmpty() || request.get("photo").isEmpty()) {
+            throw new CustomException("Invalid request", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private void validateUpdateItemRequest(Map<String, String> request) throws CustomException {
+        if (request.get("id").isEmpty() || request.get("title").isEmpty()) {
             throw new CustomException("Invalid request", HttpStatus.BAD_REQUEST);
         }
     }

@@ -25,7 +25,6 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
-
     private final UserService userService;
 
     @Override
