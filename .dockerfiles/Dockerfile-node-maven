@@ -1,0 +1,12 @@
+FROM ubuntu:latest
+
+# Update
+RUN apt update
+
+# Install maven
+RUN apt install -y maven
+
+# Install node
+RUN apt install -y nodejs npm
+
+CMD echo "Node Version - $(node -v)\n NPM Version - $(npm -v)" && echo "Maven Version - \n$(mvn -v)"
