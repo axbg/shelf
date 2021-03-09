@@ -4,7 +4,6 @@ EXPOSE 8080
 # Front-end build
 WORKDIR /front
 COPY front .
-RUN cp .env .env.prod
 
 # Disable SSL that causes error on arm/v7
 RUN npm config set registry http://registry.npmjs.org/

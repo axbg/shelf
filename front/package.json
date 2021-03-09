@@ -57,7 +57,8 @@
       "workboxOptions": {
         "swSrc": "src/service-worker.js"
       }
-    }
+    },
+    "productionSourceMap": false
   },
   "browserslist": [
     "> 1%",
