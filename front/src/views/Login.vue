@@ -43,31 +43,19 @@ export default {
   },
   methods: {
     async onSignInSuccess(googleUser) {
-      const loginResponse = await fetch(this.baseUrl + "/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          gToken: googleUser.getAuthResponse().id_token
-        })
-      });
+      const userData =
+        googleUser.getAuthResponse().id_token +
+        "#" +
+        googleUser.getBasicProfile().getGivenName() +
+        "#" +
+        googleUser.getBasicProfile().getImageUrl();
 
-      if (loginResponse.status === 200) {
-        window.localStorage.setItem(
-          "firstname",
-          googleUser.getBasicProfile().getGivenName()
-        );
-        window.localStorage.setItem(
-          "photo",
-          googleUser.getBasicProfile().getImageUrl()
-        );
-        location.reload();
-      }
+      this.$emit("login", userData);
     },
-    onSignInError() {
-      alert("An error occurred while signing in");
+    onSignInError(error) {
+      if (error.error !== "popup_closed_by_user") {
+        alert("An error occurred while signing in");
+      }
     }
   }
 };

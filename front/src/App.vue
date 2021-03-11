@@ -10,7 +10,7 @@
         v-bind:items="items"
         v-bind:size="size"
       />
-      <Login v-else v-bind:baseUrl="baseUrl" />
+      <Login v-else v-bind:baseUrl="baseUrl" @login="attemptLogin" />
     </div>
   </div>
 </template>
@@ -44,15 +44,16 @@ export default {
           credentials: "include"
         }
       );
+
       if (result.status === 200) {
         this.items = await result.json();
         this.authenticated = true;
         this.loaded = true;
         return;
       }
+
       throw "Unauthenticated";
     } catch (err) {
-      this.authenticated = false;
       this.loaded = true;
     }
   },
@@ -74,6 +75,33 @@ export default {
         default:
           this.size = 5;
           break;
+      }
+    },
+    attemptLogin: async function(userData) {
+      try {
+        this.loaded = false;
+
+        const [id_token, firstname, photo] = userData.split("#");
+
+        const loginResponse = await fetch(this.baseUrl + "/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            gToken: id_token
+          })
+        });
+
+        if (loginResponse.status === 200) {
+          window.localStorage.setItem("firstname", firstname);
+          window.localStorage.setItem("photo", photo);
+          location.reload();
+        }
+      } catch (err) {
+        alert("An error occurred while connecting to the back-end");
+        this.loaded = true;
       }
     }
   }

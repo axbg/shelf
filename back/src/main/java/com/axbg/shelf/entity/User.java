@@ -1,18 +1,12 @@
 package com.axbg.shelf.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.time.Instant;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.List;
 
 @Data
 @Entity
@@ -39,6 +33,6 @@ public class User {
         this.email = email;
         this.firstName = firstName;
         this.photo = photo;
-        this.lastReset = Instant.now();
+        this.lastReset = Instant.now().minusSeconds(60);
     }
 }
