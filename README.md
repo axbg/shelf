@@ -52,11 +52,7 @@
         * The same steps as in development deployment
   * After you complete the required credentials mentioned above you can run the ```bash.sh``` script that will produce a runnable jar in the root of the project
 * Using Docker
-  * Front
-    * In front/.env
-      * Set VUE_APP_GOOGLE_CLIENT_ID equal to your google client id
-      * Set VUE_APP_BASE_URL equal to /api
+  * Prepare a MySQL database
   * Fill docker.env with suitable values
-    * GOOGLE_CLIENT_ID should be the same with VUE_APP_GOOGLE_CLIENT_ID
     * JWT_EXPIRATION is expressed in miliseconds
-  * ```docker-compose up -d```
+  * ```docker run -d -p 8080:8080 --env-file ./env --name shelf axbg/shelf```
