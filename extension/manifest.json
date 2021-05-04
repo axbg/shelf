@@ -7,7 +7,7 @@
         "identity",
         "tabs",
         "cookies",
-        "FRONT_END_DOMAIN.com/"
+        "*://your-domain.com/"
     ],
     "background": {
         "scripts": [
@@ -23,7 +23,7 @@
         "default_popup": "index.html"
     },
     "manifest_version": 2,
-    "key": "YOUR_PUBLIC_KEY",
+    "key": "-----BEGIN PUBLIC KEY----- ... CHROME_DEVELOPER_PUBLIC_KEY",
     "oauth2": {
         "client_id": "YOUR_WEB_AUTH_CLIENT_ID.apps.googleusercontent.com",
         "scopes": [

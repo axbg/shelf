@@ -31,7 +31,7 @@
     * Create Chrome App credentials in your GCP Projects
     * Create a chrome developer project and load the 'extension' directory
     * Open extension/manifest.json and fill:
-        * key: the public key provided in the [chrome developer console](https://chrome.google.com/webstore/developer/dashboard) *more information* box
+        * key: the public key provided in the [chrome developer console](https://chrome.google.com/webstore/developer/dashboard) in the provided format (don't remove new lines)
         * client_id: the same client id used in the back-end
     * Open extension/js/utils.js and fill:
          * baseUrl: the url under which your back-end application is deployed
