@@ -1,9 +1,12 @@
-const baseUrl = "https://shelf.axbg.tech";
-
+const baseUrl = "https://your-domain.com";
 // in production it should be the same as baseUrl
 const frontUrl = baseUrl;
 
-const getAuthCookie = function (domain, cookieName) {
+const cookieName = "X-AUTH";
+const notSavedIcon = "icons/not-saved.png";
+const savedIcon = "icons/saved.png";
+
+const getAuthCookie = function (domain) {
     return new Promise((resolve, reject) => {
         chrome.cookies.get({ url: domain, name: cookieName }, function (cookie) {
             if (cookie) {
@@ -40,7 +43,7 @@ const login = async function (idToken) {
     return result.status === 200 ? true : false;
 };
 
-const checkCurrentUrl = async function () {
+const checkCurrentUrl = async function (interactive) {
     const currentUrl = await getCurrentUrl();
 
     if (currentUrl) {
@@ -52,11 +55,12 @@ const checkCurrentUrl = async function () {
             }
         });
 
-        return response.status === 200 ? true :
-            (response.status === 404) ? false : null;
+        return response.status === 200 ? true : (response.status === 404) ? false : null;
     } else {
-        alert("Page is invalid");
-        window.close();
+        if (interactive) {
+            alert("Page is invalid");
+            window.close();
+        }
     }
 };
 
@@ -86,4 +90,11 @@ const removeItem = async function () {
     });
 
     return response.status === 200 ? true : false;
+};
+
+const changeIcon = function (tabId, saved) {
+    chrome.browserAction.setIcon({
+        path: saved ? savedIcon : notSavedIcon,
+        tabId: tabId
+    });
 };

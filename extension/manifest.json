@@ -11,14 +11,13 @@
     ],
     "background": {
         "scripts": [
+            "js/utils.js",
             "background.js"
         ],
         "persistent": true
     },
     "browser_action": {
-        "default_icon": {
-            "32": "icons/32.png"
-        },
+        "default_icon": "icons/not-saved.png",
         "default_title": "shelf",
         "default_popup": "index.html"
     },

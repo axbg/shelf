@@ -57,7 +57,7 @@ const bindInteractiveLogin = function () {
 
 const executeCheckCurrentUrl = async function () {
     let result = false;
-    const checkResult = await checkCurrentUrl();
+    const checkResult = await checkCurrentUrl(true);
 
     switch (checkResult) {
         case null:
@@ -67,11 +67,17 @@ const executeCheckCurrentUrl = async function () {
             result = true;
             toggleLoader(false);
             toggleCheckResult(true);
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                changeIcon(tabs[0].id, true);
+            });
             break;
         case false:
             result = true;
             toggleLoader(false);
             toggleCheckResult(false);
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                changeIcon(tabs[0].id, false);
+            });
             break;
     }
 
@@ -102,8 +108,9 @@ const handleAddItem = async function () {
     toggleLoader(false);
     if (result) {
         toggleCheckResult(true);
-    } else {
-        toggleCheckResult(false);
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            changeIcon(tabs[0].id, true);
+        });
     }
 };
 
@@ -116,7 +123,8 @@ const handleRemoveItem = async function () {
     toggleLoader(false);
     if (result) {
         toggleCheckResult(false);
-    } else {
-        toggleCheckResult(true);
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            changeIcon(tabs[0].id, false);
+        });
     }
 };
