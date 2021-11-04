@@ -4,44 +4,44 @@
       <pulse-loader color="#FFC0CB" size="50px"></pulse-loader>
     </div>
     <div v-else class="app-container">
-      <Home
+      <HomeView
         v-if="authenticated"
         v-bind:baseUrl="baseUrl"
         v-bind:items="items"
         v-bind:size="size"
       />
-      <Login v-else v-bind:baseUrl="baseUrl" @login="attemptLogin" />
+      <LoginView v-else v-bind:baseUrl="baseUrl" @login="attemptLogin" />
     </div>
   </div>
 </template>
 
 <script>
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-import Home from "@/views/Home.vue";
-import Login from "@/views/Login.vue";
+import HomeView from "@/views/HomeView.vue";
+import LoginView from "@/views/LoginView.vue";
 export default {
   components: {
     PulseLoader,
-    Home,
-    Login
+    HomeView,
+    LoginView,
   },
   name: "App",
-  data: function() {
+  data: function () {
     return {
       baseUrl: this.$baseUrl,
       loaded: false,
       authenticated: false,
       size: null,
-      items: []
+      items: [],
     };
   },
-  beforeMount: async function() {
+  beforeMount: async function () {
     try {
       this.getItemListSize();
       const result = await fetch(
         this.baseUrl + "/item?page=0&size=" + this.size,
         {
-          credentials: "include"
+          credentials: "include",
         }
       );
 
@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-    getItemListSize: function() {
+    getItemListSize: function () {
       switch (true) {
         case window.innerWidth > 1800:
           this.size = 25;
@@ -77,7 +77,7 @@ export default {
           break;
       }
     },
-    attemptLogin: async function(userData) {
+    attemptLogin: async function (userData) {
       try {
         this.loaded = false;
 
@@ -86,12 +86,12 @@ export default {
         const loginResponse = await fetch(this.baseUrl + "/user/login", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           credentials: "include",
           body: JSON.stringify({
-            gToken: id_token
-          })
+            gToken: id_token,
+          }),
         });
 
         if (loginResponse.status === 200) {
@@ -103,8 +103,8 @@ export default {
         alert("An error occurred while connecting to the back-end");
         this.loaded = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

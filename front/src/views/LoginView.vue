@@ -32,13 +32,13 @@
 
 <script>
 export default {
-  name: "login",
+  name: "login-view",
   props: ["baseUrl"],
-  data: function() {
+  data: function () {
     return {
       googleSignInParams: {
-        client_id: this.$googleClientId
-      }
+        client_id: this.$googleClientId,
+      },
     };
   },
   methods: {
@@ -56,8 +56,8 @@ export default {
       if (error.error !== "popup_closed_by_user") {
         alert("An error occurred while signing in");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

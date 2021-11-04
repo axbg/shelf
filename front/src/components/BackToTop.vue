@@ -11,17 +11,17 @@
 export default {
   name: "BackToTop",
   data: () => ({
-    displayBackToTop: true
+    displayBackToTop: true,
   }),
   methods: {
-    scrollTop: function() {
+    scrollTop: function () {
       const distance = this.$parent.$el.lastChild.scrollTop;
       if (distance > 0) {
         window.requestAnimationFrame(this.scrollTop);
         this.$parent.$el.lastChild.scrollTo(0, distance - distance / 8);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

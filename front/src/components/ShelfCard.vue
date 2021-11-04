@@ -47,38 +47,38 @@ export default {
     title: String,
     url: String,
     photo: String,
-    topic: String
+    topic: String,
   },
   data: () => ({
     localTitle: "",
-    showDialog: false
+    showDialog: false,
   }),
-  created: function() {
+  created: function () {
     this.syncLocal();
   },
-  beforeUpdate: function() {
+  beforeUpdate: function () {
     this.syncLocal();
   },
   methods: {
-    syncLocal: function() {
+    syncLocal: function () {
       this.localTitle = this.title;
     },
-    displayDialog: function(event) {
+    displayDialog: function (event) {
       event.preventDefault();
       event.stopPropagation();
       this.showDialog = true;
     },
-    dialogConfirm: function(event) {
+    dialogConfirm: function (event) {
       if (event !== this.title) {
         this.$emit("edit-item", this.id + "#" + event);
       }
     },
-    remove: function(event) {
+    remove: function (event) {
       event.preventDefault();
       event.stopPropagation();
       this.$emit("remove-item", this.id);
-    }
-  }
+    },
+  },
 };
 </script>
 

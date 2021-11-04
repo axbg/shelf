@@ -15,13 +15,13 @@ Vue.use(GSignInButton);
 Vue.use(InfiniteLoading, {
   slots: {
     noResults: "That's all for now 😍",
-    noMore: "That's all for now 😍"
-  }
+    noMore: "That's all for now 😍",
+  },
 });
 
 Vue.prototype.$baseUrl = process.env.VUE_APP_BASE_URL;
 Vue.prototype.$googleClientId = process.env.VUE_APP_GOOGLE_CLIENT_ID;
 
 new Vue({
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

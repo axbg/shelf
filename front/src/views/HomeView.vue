@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <Sidenav v-bind:baseUrl="baseUrl" @search-result="loadSearchResult" />
+    <SideNav v-bind:baseUrl="baseUrl" @search-result="loadSearchResult" />
     <div id="content" v-if="loaded" class="content">
       <back-to-top />
       <ShelfCard
@@ -30,41 +30,41 @@
 <script>
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import ShelfCard from "@/components/ShelfCard";
-import Sidenav from "@/components/Sidenav";
+import SideNav from "@/components/Sidenav";
 import BackToTop from "@/components/BackToTop";
 export default {
   components: {
     PulseLoader,
     ShelfCard,
-    Sidenav,
-    BackToTop
+    SideNav,
+    BackToTop,
   },
-  name: "home",
+  name: "home-view",
   data: () => ({
     page: 1,
     loaded: true,
     displayInfinite: true,
     displayItems: [],
-    backupItems: []
+    backupItems: [],
   }),
   props: ["baseUrl", "items", "size"],
-  beforeMount: function() {
+  beforeMount: function () {
     this.appendLocalItems(this.items);
     if (this.items.length < this.size) {
       this.displayInfinite = false;
     }
   },
   methods: {
-    appendLocalItems: function(items) {
+    appendLocalItems: function (items) {
       this.backupItems.push(...items);
       this.displayItems = [...this.backupItems];
     },
-    load: async function(inBetween) {
+    load: async function (inBetween) {
       this.loaded = false;
       await inBetween();
       this.loaded = true;
     },
-    loadSearchResult: async function(result) {
+    loadSearchResult: async function (result) {
       if (result !== "") {
         this.displayInfinite = false;
         this.load(async () => {
@@ -79,14 +79,14 @@ export default {
         this.displayInfinite = true;
       }
     },
-    updateCardTitle: function(item, id, title) {
+    updateCardTitle: function (item, id, title) {
       if (item.id == id) {
         item.title = title;
       }
 
       return item;
     },
-    editItem: async function(data) {
+    editItem: async function (data) {
       const parsed = data.split("#");
       const itemId = parsed[0];
       const title = parsed[1];
@@ -94,35 +94,37 @@ export default {
       const result = await fetch(this.baseUrl + "/item", {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ id: itemId, title: title })
+        body: JSON.stringify({ id: itemId, title: title }),
       });
 
       if (result.ok) {
-        this.displayItems = this.displayItems.map(item =>
+        this.displayItems = this.displayItems.map((item) =>
           this.updateCardTitle(item, itemId, title)
         );
 
-        this.backupItems = this.backupItems.map(item =>
+        this.backupItems = this.backupItems.map((item) =>
           this.updateCardTitle(item, itemId, title)
         );
       }
     },
-    removeItem: async function(itemId) {
+    removeItem: async function (itemId) {
       if (confirm("You sure?")) {
         await fetch(this.baseUrl + "/item/" + itemId, {
           method: "DELETE",
-          credentials: "include"
+          credentials: "include",
         });
         this.displayItems = this.displayItems.filter(
-          item => item.id !== itemId
+          (item) => item.id !== itemId
         );
-        this.backupItems = this.backupItems.filter(item => item.id !== itemId);
+        this.backupItems = this.backupItems.filter(
+          (item) => item.id !== itemId
+        );
       }
     },
-    scrollHandler: async function($state) {
+    scrollHandler: async function ($state) {
       const requestedItems = await fetch(
         this.baseUrl + "/item?page=" + this.page + "&size=" + this.size,
         { method: "GET", credentials: "include" }
@@ -139,8 +141,8 @@ export default {
       } else {
         $state.loaded();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

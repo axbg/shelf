@@ -1,16 +1,15 @@
 {
   "name": "front",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && node prepare-manifest.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.9.1",
+    "core-js": "^3.19.1",
     "register-service-worker": "^1.7.2",
-    "vue": "^2.6.12",
+    "vue": "^2.6.14",
     "vue-google-signin-button": "^1.0.4",
     "vue-infinite-loading": "^2.4.5",
     "vue-material": "^1.0.0-beta-15",
@@ -18,17 +17,17 @@
     "vue-spinner": "^1.0.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.12",
-    "@vue/cli-plugin-eslint": "^4.5.12",
-    "@vue/cli-plugin-pwa": "^4.5.12",
-    "@vue/cli-service": "^4.5.13",
-    "@vue/eslint-config-prettier": "^5.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^5.0.0",
-    "prettier": "^1.19.1",
-    "vue-template-compiler": "^2.6.12"
+    "@vue/cli-plugin-babel": "^4.5.15",
+    "@vue/cli-plugin-eslint": "^5.0.0-beta.7",
+    "@vue/cli-plugin-pwa": "^4.5.15",
+    "@vue/cli-service": "^4.5.15",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@babel/eslint-parser": "^7.16.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "prettier": "^2.4.1",
+    "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
     "root": true,
@@ -43,7 +42,7 @@
       "no-console": 0
     },
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@babel/eslint-parser"
     }
   },
   "vue": {

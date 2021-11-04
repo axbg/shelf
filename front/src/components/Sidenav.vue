@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%;height:100%;">
+  <div style="width: 100%; height: 100%">
     <md-dialog-prompt
       :md-active.sync="showDialog"
       v-model="url"
@@ -55,7 +55,7 @@
         </md-list-item>
       </md-list>
       <md-field>
-        <label style="margin-left: 15px;">Search</label>
+        <label style="margin-left: 15px">Search</label>
         <md-input v-model="search" class="half-sized accent-pink"></md-input>
       </md-field>
       <md-list class="left-margined">
@@ -79,7 +79,7 @@
 
 <script>
 export default {
-  name: "Sidenav",
+  name: "side-nav",
   props: ["baseUrl"],
   data: () => ({
     firstname: "",
@@ -88,16 +88,16 @@ export default {
     searchDelay: null,
     url: null,
     showDialog: false,
-    newItemStatus: "Add Item"
+    newItemStatus: "Add Item",
   }),
-  beforeMount: function() {
+  beforeMount: function () {
     this.firstname = window.localStorage.getItem("firstname");
     this.photo = window.localStorage.getItem("photo");
   },
-  mounted: async function() {
+  mounted: async function () {
     if (!this.firstname && !this.photo) {
       const response = await fetch(this.baseUrl + "/user", {
-        credentials: "include"
+        credentials: "include",
       });
       const profile = await response.json();
 
@@ -108,16 +108,16 @@ export default {
     }
   },
   methods: {
-    dialogConfirm: async function(event) {
+    dialogConfirm: async function (event) {
       if (event !== null && event.includes("http")) {
         this.newItemStatus = "Loading...";
         const result = await fetch(this.baseUrl + "/item/scrap", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ url: this.url })
+          body: JSON.stringify({ url: this.url }),
         });
 
         if (result.ok) {
@@ -127,36 +127,36 @@ export default {
         }
       }
     },
-    reset: async function() {
+    reset: async function () {
       await fetch(this.baseUrl + "/user/reset", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
       this.clearSession();
     },
-    logout: async function() {
+    logout: async function () {
       await fetch(this.baseUrl + "/user/logout", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
       this.clearSession();
     },
-    clearSession: function() {
+    clearSession: function () {
       window.localStorage.removeItem("firstname");
       window.localStorage.removeItem("photo");
       location.reload();
-    }
+    },
   },
   watch: {
-    search: function() {
+    search: function () {
       if (this.searchDelay != null) {
         clearTimeout(this.searchDelay);
       }
       this.searchDelay = setTimeout(() => {
         this.$emit("search-result", this.search);
       }, 700);
-    }
-  }
+    },
+  },
 };
 </script>
 
