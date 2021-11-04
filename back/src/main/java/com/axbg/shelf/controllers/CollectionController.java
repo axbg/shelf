@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/collection")
+@RequestMapping("/collection")
 public class CollectionController {
     private final CollectionService collectionService;
     private final ItemService itemService;
